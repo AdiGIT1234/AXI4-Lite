@@ -1,0 +1,13 @@
+# Verilator build artifacts
+obj_dir/
+obj_dir_negative/
+
+# Simulation waveforms
+waveforms/*.vcd
+
+# macOS
+.DS_Store
+
+# Editor and temporary files
+*.swp
+*~

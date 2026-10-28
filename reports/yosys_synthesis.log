@@ -1,0 +1,1672 @@
+
+ /----------------------------------------------------------------------------\
+ |  yosys -- Yosys Open SYnthesis Suite                                       |
+ |  Copyright (C) 2012 - 2026  Claire Xenia Wolf <claire@yosyshq.com>         |
+ |  Distributed under an ISC-like license, type "license" to see terms        |
+ \----------------------------------------------------------------------------/
+ Yosys 0.69+post (git sha1 143eb14f9cc55d6f8927e68523b0c9d2166ed02c, Release, AppleClang clang++ 21.0.0.21000334)
+
+-- Running command `
+read_verilog -sv rtl/register_bank.sv rtl/axi_write_channel.sv rtl/axi_read_channel.sv rtl/axi4_lite_slave.sv
+hierarchy -check -top axi4_lite_slave
+synth -top axi4_lite_slave
+check
+stat
+write_verilog -noattr reports/axi4_lite_slave_synth.v
+' --
+
+1. Executing Verilog-2005 frontend: rtl/register_bank.sv
+Parsing SystemVerilog input from `rtl/register_bank.sv' to AST representation.
+Generating RTLIL representation for module `\register_bank'.
+Warning: Replacing memory \regs with list of registers. See rtl/register_bank.sv:52
+Successfully finished Verilog frontend.
+
+2. Executing Verilog-2005 frontend: rtl/axi_write_channel.sv
+Parsing SystemVerilog input from `rtl/axi_write_channel.sv' to AST representation.
+Generating RTLIL representation for module `\axi_write_channel'.
+Successfully finished Verilog frontend.
+
+3. Executing Verilog-2005 frontend: rtl/axi_read_channel.sv
+Parsing SystemVerilog input from `rtl/axi_read_channel.sv' to AST representation.
+Generating RTLIL representation for module `\axi_read_channel'.
+Successfully finished Verilog frontend.
+
+4. Executing Verilog-2005 frontend: rtl/axi4_lite_slave.sv
+Parsing SystemVerilog input from `rtl/axi4_lite_slave.sv' to AST representation.
+Generating RTLIL representation for module `\axi4_lite_slave'.
+Successfully finished Verilog frontend.
+
+5. Executing HIERARCHY pass (managing design hierarchy).
+
+5.1. Analyzing design hierarchy..
+Top module:  \axi4_lite_slave
+Used module:     \register_bank
+Used module:     \axi_read_channel
+Used module:     \axi_write_channel
+Parameter \ADDR_WIDTH = 32
+Parameter \DATA_WIDTH = 32
+Parameter \NUM_REGS = 16
+
+5.2. Executing AST frontend in derive mode using pre-parsed AST for module `\register_bank'.
+Parameter \ADDR_WIDTH = 32
+Parameter \DATA_WIDTH = 32
+Parameter \NUM_REGS = 16
+Generating RTLIL representation for module `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank'.
+Warning: Replacing memory \regs with list of registers. See rtl/register_bank.sv:52
+Parameter \ADDR_WIDTH = 32
+Parameter \DATA_WIDTH = 32
+
+5.3. Executing AST frontend in derive mode using pre-parsed AST for module `\axi_read_channel'.
+Parameter \ADDR_WIDTH = 32
+Parameter \DATA_WIDTH = 32
+Generating RTLIL representation for module `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel'.
+Parameter \ADDR_WIDTH = 32
+Parameter \DATA_WIDTH = 32
+
+5.4. Executing AST frontend in derive mode using pre-parsed AST for module `\axi_write_channel'.
+Parameter \ADDR_WIDTH = 32
+Parameter \DATA_WIDTH = 32
+Generating RTLIL representation for module `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel'.
+
+5.5. Analyzing design hierarchy..
+Top module:  \axi4_lite_slave
+Used module:     $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank
+Used module:     $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel
+Used module:     $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel
+
+5.6. Analyzing design hierarchy..
+Top module:  \axi4_lite_slave
+Used module:     $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank
+Used module:     $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel
+Used module:     $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel
+Removing unused module `\axi_read_channel'.
+Removing unused module `\axi_write_channel'.
+Removing unused module `\register_bank'.
+Removed 3 unused modules.
+
+6. Executing SYNTH pass.
+
+6.1. Executing HIERARCHY pass (managing design hierarchy).
+
+6.1.1. Analyzing design hierarchy..
+Top module:  \axi4_lite_slave
+Used module:     $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank
+Used module:     $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel
+Used module:     $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel
+
+6.1.2. Analyzing design hierarchy..
+Top module:  \axi4_lite_slave
+Used module:     $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank
+Used module:     $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel
+Used module:     $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel
+Removed 0 unused modules.
+
+6.2. Executing PROC pass (convert processes to netlists).
+
+6.2.1. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Cleaned up 0 empty switches.
+
+6.2.2. Executing PROC_RMDEAD pass (remove dead branches from decision trees).
+Marked 2 switch rules as full_case in process $proc$rtl/axi_write_channel.sv:74$160 in module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel.
+Marked 3 switch rules as full_case in process $proc$rtl/axi_read_channel.sv:49$139 in module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel.
+Removed 1 dead cases from process $proc$rtl/register_bank.sv:65$130 in module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.
+Marked 2 switch rules as full_case in process $proc$rtl/register_bank.sv:65$130 in module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.
+Marked 10 switch rules as full_case in process $proc$rtl/register_bank.sv:49$95 in module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.
+Removed a total of 1 dead cases.
+
+6.2.3. Executing PROC_PRUNE pass (remove redundant assignments in processes).
+Removed 0 redundant assignments.
+Promoted 22 assignments to connections.
+
+6.2.4. Executing PROC_INIT pass (extract init attributes).
+
+6.2.5. Executing PROC_ARST pass (detect async resets in processes).
+Found async reset \rst_n in `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel.$proc$rtl/axi_write_channel.sv:74$160'.
+Found async reset \rst_n in `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel.$proc$rtl/axi_read_channel.sv:49$139'.
+Found async reset \rst_n in `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.$proc$rtl/register_bank.sv:49$95'.
+
+6.2.6. Executing PROC_ROM pass (convert switches to ROMs).
+Converted 0 switches.
+<suppressed ~19 debug messages>
+
+6.2.7. Executing PROC_MUX pass (convert decision trees to multiplexers).
+Creating decoders for process `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel.$proc$rtl/axi_write_channel.sv:74$160'.
+     1/8: $0\bresp_reg[1:0]
+     2/8: $0\response_pending[0:0]
+     3/8: $0\w_pending[0:0]
+     4/8: $0\aw_pending[0:0]
+     5/8: $0\wstrb_reg[3:0]
+     6/8: $0\wdata_reg[31:0]
+     7/8: $0\awaddr_reg[31:0]
+     8/8: $0\s_axi_bvalid[0:0]
+Creating decoders for process `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel.$proc$rtl/axi_write_channel.sv:64$155'.
+Creating decoders for process `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel.$proc$rtl/axi_read_channel.sv:49$139'.
+     1/3: $0\rresp_reg[1:0]
+     2/3: $0\rdata_reg[31:0]
+     3/3: $0\s_axi_rvalid[0:0]
+Creating decoders for process `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.$proc$rtl/register_bank.sv:65$130'.
+     1/4: $2$mem2reg_rd$\regs$rtl/register_bank.sv:69$87_DATA[31:0]$136
+     2/4: $1\rd_data[31:0]
+     3/4: $1$mem2reg_rd$\regs$rtl/register_bank.sv:69$87_DATA[31:0]$135
+     4/4: $1$mem2reg_rd$\regs$rtl/register_bank.sv:69$87_ADDR[3:0]$134
+Creating decoders for process `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.$proc$rtl/register_bank.sv:49$95'.
+     1/91: $3$mem2reg_wr$\regs$rtl/register_bank.sv:57$86_ADDR[3:0]$128
+     2/91: $3$mem2reg_wr$\regs$rtl/register_bank.sv:57$86_DATA[31:0]$129
+     3/91: $0\regs[15][31:0] [31:24]
+     4/91: $0\regs[15][31:0] [23:16]
+     5/91: $0\regs[14][31:0] [23:16]
+     6/91: $0\regs[13][31:0] [23:16]
+     7/91: $0\regs[12][31:0] [23:16]
+     8/91: $0\regs[11][31:0] [23:16]
+     9/91: $0\regs[10][31:0] [23:16]
+    10/91: $0\regs[9][31:0] [23:16]
+    11/91: $0\regs[8][31:0] [23:16]
+    12/91: $0\regs[7][31:0] [23:16]
+    13/91: $0\regs[6][31:0] [23:16]
+    14/91: $0\regs[5][31:0] [23:16]
+    15/91: $0\regs[4][31:0] [23:16]
+    16/91: $0\regs[3][31:0] [23:16]
+    17/91: $0\regs[2][31:0] [23:16]
+    18/91: $0\regs[1][31:0] [23:16]
+    19/91: $0\regs[0][31:0] [23:16]
+    20/91: $3$mem2reg_wr$\regs$rtl/register_bank.sv:57$85_DATA[31:0]$127
+    21/91: $0\regs[14][31:0] [31:24]
+    22/91: $0\regs[15][31:0] [15:8]
+    23/91: $0\regs[14][31:0] [15:8]
+    24/91: $0\regs[13][31:0] [15:8]
+    25/91: $0\regs[12][31:0] [15:8]
+    26/91: $0\regs[11][31:0] [15:8]
+    27/91: $0\regs[10][31:0] [15:8]
+    28/91: $0\regs[9][31:0] [15:8]
+    29/91: $0\regs[8][31:0] [15:8]
+    30/91: $0\regs[7][31:0] [15:8]
+    31/91: $0\regs[6][31:0] [15:8]
+    32/91: $0\regs[5][31:0] [15:8]
+    33/91: $0\regs[4][31:0] [15:8]
+    34/91: $0\regs[3][31:0] [15:8]
+    35/91: $0\regs[2][31:0] [15:8]
+    36/91: $0\regs[1][31:0] [15:8]
+    37/91: $0\regs[0][31:0] [15:8]
+    38/91: $3$mem2reg_wr$\regs$rtl/register_bank.sv:57$84_DATA[31:0]$125
+    39/91: $0\regs[13][31:0] [31:24]
+    40/91: $0\regs[15][31:0] [7:0]
+    41/91: $0\regs[14][31:0] [7:0]
+    42/91: $0\regs[13][31:0] [7:0]
+    43/91: $0\regs[12][31:0] [7:0]
+    44/91: $0\regs[11][31:0] [7:0]
+    45/91: $0\regs[10][31:0] [7:0]
+    46/91: $0\regs[9][31:0] [7:0]
+    47/91: $0\regs[8][31:0] [7:0]
+    48/91: $0\regs[7][31:0] [7:0]
+    49/91: $0\regs[6][31:0] [7:0]
+    50/91: $0\regs[5][31:0] [7:0]
+    51/91: $0\regs[4][31:0] [7:0]
+    52/91: $0\regs[3][31:0] [7:0]
+    53/91: $0\regs[2][31:0] [7:0]
+    54/91: $0\regs[1][31:0] [7:0]
+    55/91: $0\regs[0][31:0] [7:0]
+    56/91: $3$mem2reg_wr$\regs$rtl/register_bank.sv:57$83_DATA[31:0]$123
+    57/91: $2\byte_lane[31:0]
+    58/91: $2$mem2reg_wr$\regs$rtl/register_bank.sv:57$86_DATA[31:0]$121
+    59/91: $2$mem2reg_wr$\regs$rtl/register_bank.sv:57$86_ADDR[3:0]$120
+    60/91: $2$mem2reg_wr$\regs$rtl/register_bank.sv:57$85_DATA[31:0]$119
+    61/91: $2$mem2reg_wr$\regs$rtl/register_bank.sv:57$85_ADDR[3:0]$118
+    62/91: $2$mem2reg_wr$\regs$rtl/register_bank.sv:57$84_DATA[31:0]$117
+    63/91: $2$mem2reg_wr$\regs$rtl/register_bank.sv:57$84_ADDR[3:0]$116
+    64/91: $2$mem2reg_wr$\regs$rtl/register_bank.sv:57$83_DATA[31:0]$115
+    65/91: $2$mem2reg_wr$\regs$rtl/register_bank.sv:57$83_ADDR[3:0]$114
+    66/91: $1$mem2reg_wr$\regs$rtl/register_bank.sv:57$86_DATA[31:0]$112
+    67/91: $1$mem2reg_wr$\regs$rtl/register_bank.sv:57$86_ADDR[3:0]$111
+    68/91: $1$mem2reg_wr$\regs$rtl/register_bank.sv:57$85_DATA[31:0]$110
+    69/91: $1$mem2reg_wr$\regs$rtl/register_bank.sv:57$85_ADDR[3:0]$109
+    70/91: $1$mem2reg_wr$\regs$rtl/register_bank.sv:57$84_DATA[31:0]$108
+    71/91: $1$mem2reg_wr$\regs$rtl/register_bank.sv:57$84_ADDR[3:0]$107
+    72/91: $1$mem2reg_wr$\regs$rtl/register_bank.sv:57$83_DATA[31:0]$106
+    73/91: $1$mem2reg_wr$\regs$rtl/register_bank.sv:57$83_ADDR[3:0]$105
+    74/91: $1\byte_lane[31:0]
+    75/91: $1\i[31:0]
+    76/91: $0\regs[12][31:0] [31:24]
+    77/91: $0\regs[11][31:0] [31:24]
+    78/91: $0\regs[10][31:0] [31:24]
+    79/91: $0\regs[9][31:0] [31:24]
+    80/91: $0\regs[8][31:0] [31:24]
+    81/91: $0\regs[7][31:0] [31:24]
+    82/91: $0\regs[6][31:0] [31:24]
+    83/91: $0\regs[5][31:0] [31:24]
+    84/91: $0\regs[4][31:0] [31:24]
+    85/91: $0\regs[3][31:0] [31:24]
+    86/91: $0\regs[2][31:0] [31:24]
+    87/91: $0\regs[1][31:0] [31:24]
+    88/91: $0\regs[0][31:0] [31:24]
+    89/91: $3$mem2reg_wr$\regs$rtl/register_bank.sv:57$85_ADDR[3:0]$126
+    90/91: $3$mem2reg_wr$\regs$rtl/register_bank.sv:57$84_ADDR[3:0]$124
+    91/91: $3$mem2reg_wr$\regs$rtl/register_bank.sv:57$83_ADDR[3:0]$122
+Creating decoders for process `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.$proc$rtl/register_bank.sv:36$88'.
+
+6.2.8. Executing PROC_DLATCH pass (convert process syncs to latches).
+No latch inferred for signal `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel.\s_axi_bresp' from process `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel.$proc$rtl/axi_write_channel.sv:64$155'.
+No latch inferred for signal `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel.\reg_wr_en' from process `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel.$proc$rtl/axi_write_channel.sv:64$155'.
+No latch inferred for signal `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel.\reg_wr_addr' from process `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel.$proc$rtl/axi_write_channel.sv:64$155'.
+No latch inferred for signal `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel.\reg_wr_data' from process `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel.$proc$rtl/axi_write_channel.sv:64$155'.
+No latch inferred for signal `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel.\reg_wr_strb' from process `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel.$proc$rtl/axi_write_channel.sv:64$155'.
+No latch inferred for signal `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.\rd_data' from process `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.$proc$rtl/register_bank.sv:65$130'.
+No latch inferred for signal `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.\wr_valid_addr' from process `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.$proc$rtl/register_bank.sv:36$88'.
+No latch inferred for signal `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.\rd_valid_addr' from process `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.$proc$rtl/register_bank.sv:36$88'.
+No latch inferred for signal `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.\wr_index' from process `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.$proc$rtl/register_bank.sv:36$88'.
+No latch inferred for signal `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.\rd_index' from process `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.$proc$rtl/register_bank.sv:36$88'.
+
+6.2.9. Executing PROC_DFF pass (convert process syncs to FFs).
+Creating register for signal `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel.\s_axi_bvalid' using process `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel.$proc$rtl/axi_write_channel.sv:74$160'.
+  created $adff cell `$procdff$1307' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel.\awaddr_reg' using process `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel.$proc$rtl/axi_write_channel.sv:74$160'.
+  created $adff cell `$procdff$1312' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel.\wdata_reg' using process `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel.$proc$rtl/axi_write_channel.sv:74$160'.
+  created $adff cell `$procdff$1317' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel.\wstrb_reg' using process `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel.$proc$rtl/axi_write_channel.sv:74$160'.
+  created $adff cell `$procdff$1322' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel.\aw_pending' using process `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel.$proc$rtl/axi_write_channel.sv:74$160'.
+  created $adff cell `$procdff$1327' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel.\w_pending' using process `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel.$proc$rtl/axi_write_channel.sv:74$160'.
+  created $adff cell `$procdff$1332' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel.\response_pending' using process `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel.$proc$rtl/axi_write_channel.sv:74$160'.
+  created $adff cell `$procdff$1337' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel.\bresp_reg' using process `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel.$proc$rtl/axi_write_channel.sv:74$160'.
+  created $adff cell `$procdff$1342' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel.\s_axi_rvalid' using process `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel.$proc$rtl/axi_read_channel.sv:49$139'.
+  created $adff cell `$procdff$1347' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel.\rdata_reg' using process `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel.$proc$rtl/axi_read_channel.sv:49$139'.
+  created $adff cell `$procdff$1352' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel.\rresp_reg' using process `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel.$proc$rtl/axi_read_channel.sv:49$139'.
+  created $adff cell `$procdff$1357' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.\i' using process `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.$proc$rtl/register_bank.sv:49$95'.
+  created $adff cell `$procdff$1362' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.\byte_lane' using process `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.$proc$rtl/register_bank.sv:49$95'.
+  created $dff cell `$procdff$1369' with positive edge clock.
+Creating register for signal `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.\regs[0]' using process `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.$proc$rtl/register_bank.sv:49$95'.
+  created $adff cell `$procdff$1374' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.\regs[1]' using process `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.$proc$rtl/register_bank.sv:49$95'.
+  created $adff cell `$procdff$1379' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.\regs[2]' using process `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.$proc$rtl/register_bank.sv:49$95'.
+  created $adff cell `$procdff$1384' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.\regs[3]' using process `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.$proc$rtl/register_bank.sv:49$95'.
+  created $adff cell `$procdff$1389' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.\regs[4]' using process `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.$proc$rtl/register_bank.sv:49$95'.
+  created $adff cell `$procdff$1394' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.\regs[5]' using process `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.$proc$rtl/register_bank.sv:49$95'.
+  created $adff cell `$procdff$1399' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.\regs[6]' using process `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.$proc$rtl/register_bank.sv:49$95'.
+  created $adff cell `$procdff$1404' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.\regs[7]' using process `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.$proc$rtl/register_bank.sv:49$95'.
+  created $adff cell `$procdff$1409' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.\regs[8]' using process `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.$proc$rtl/register_bank.sv:49$95'.
+  created $adff cell `$procdff$1414' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.\regs[9]' using process `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.$proc$rtl/register_bank.sv:49$95'.
+  created $adff cell `$procdff$1419' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.\regs[10]' using process `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.$proc$rtl/register_bank.sv:49$95'.
+  created $adff cell `$procdff$1424' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.\regs[11]' using process `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.$proc$rtl/register_bank.sv:49$95'.
+  created $adff cell `$procdff$1429' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.\regs[12]' using process `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.$proc$rtl/register_bank.sv:49$95'.
+  created $adff cell `$procdff$1434' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.\regs[13]' using process `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.$proc$rtl/register_bank.sv:49$95'.
+  created $adff cell `$procdff$1439' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.\regs[14]' using process `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.$proc$rtl/register_bank.sv:49$95'.
+  created $adff cell `$procdff$1444' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.\regs[15]' using process `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.$proc$rtl/register_bank.sv:49$95'.
+  created $adff cell `$procdff$1449' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.$mem2reg_wr$\regs$rtl/register_bank.sv:57$83_ADDR' using process `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.$proc$rtl/register_bank.sv:49$95'.
+  created $adff cell `$procdff$1454' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.$mem2reg_wr$\regs$rtl/register_bank.sv:57$83_DATA' using process `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.$proc$rtl/register_bank.sv:49$95'.
+  created $adff cell `$procdff$1459' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.$mem2reg_wr$\regs$rtl/register_bank.sv:57$84_ADDR' using process `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.$proc$rtl/register_bank.sv:49$95'.
+  created $adff cell `$procdff$1464' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.$mem2reg_wr$\regs$rtl/register_bank.sv:57$84_DATA' using process `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.$proc$rtl/register_bank.sv:49$95'.
+  created $adff cell `$procdff$1469' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.$mem2reg_wr$\regs$rtl/register_bank.sv:57$85_ADDR' using process `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.$proc$rtl/register_bank.sv:49$95'.
+  created $adff cell `$procdff$1474' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.$mem2reg_wr$\regs$rtl/register_bank.sv:57$85_DATA' using process `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.$proc$rtl/register_bank.sv:49$95'.
+  created $adff cell `$procdff$1479' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.$mem2reg_wr$\regs$rtl/register_bank.sv:57$86_ADDR' using process `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.$proc$rtl/register_bank.sv:49$95'.
+  created $adff cell `$procdff$1484' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.$mem2reg_wr$\regs$rtl/register_bank.sv:57$86_DATA' using process `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.$proc$rtl/register_bank.sv:49$95'.
+  created $adff cell `$procdff$1489' with positive edge clock and positive level reset.
+
+6.2.10. Executing PROC_MEMWR pass (convert process memory writes to cells).
+
+6.2.11. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Found and cleaned up 5 empty switches in `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel.$proc$rtl/axi_write_channel.sv:74$160'.
+Removing empty process `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel.$proc$rtl/axi_write_channel.sv:74$160'.
+Removing empty process `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel.$proc$rtl/axi_write_channel.sv:64$155'.
+Found and cleaned up 3 empty switches in `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel.$proc$rtl/axi_read_channel.sv:49$139'.
+Removing empty process `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel.$proc$rtl/axi_read_channel.sv:49$139'.
+Found and cleaned up 2 empty switches in `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.$proc$rtl/register_bank.sv:65$130'.
+Removing empty process `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.$proc$rtl/register_bank.sv:65$130'.
+Found and cleaned up 9 empty switches in `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.$proc$rtl/register_bank.sv:49$95'.
+Removing empty process `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.$proc$rtl/register_bank.sv:49$95'.
+Removing empty process `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.$proc$rtl/register_bank.sv:36$88'.
+Cleaned up 19 empty switches.
+
+6.2.12. Executing OPT_EXPR pass (perform const folding).
+Optimizing module axi4_lite_slave.
+Optimizing module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel.
+<suppressed ~16 debug messages>
+Optimizing module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel.
+<suppressed ~6 debug messages>
+Optimizing module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.
+<suppressed ~61 debug messages>
+
+6.3. Executing OPT_EXPR pass (perform const folding).
+Optimizing module axi4_lite_slave.
+Optimizing module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel.
+Optimizing module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel.
+Optimizing module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.
+
+6.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \axi4_lite_slave..
+Finding unused cells or wires in module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel..
+Finding unused cells or wires in module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel..
+Finding unused cells or wires in module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank..
+Removed 78 unused cells and 435 unused wires.
+<suppressed ~83 debug messages>
+
+6.5. Executing CHECK pass (checking for obvious problems).
+Checking module axi4_lite_slave...
+Checking module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel...
+Checking module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel...
+Checking module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank...
+Found and reported 0 problems.
+
+6.6. Executing OPT pass (performing simple optimizations).
+
+6.6.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module axi4_lite_slave.
+Optimizing module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel.
+Optimizing module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel.
+Optimizing module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.
+
+6.6.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\axi4_lite_slave'.
+Computing hashes of 3 cells of `\axi4_lite_slave'.
+Finding duplicate cells in `\axi4_lite_slave'.
+Finding identical cells in module `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel'.
+Computing hashes of 39 cells of `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel'.
+Finding duplicate cells in `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel'.
+Computing hashes of 37 cells of `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel'.
+Finding duplicate cells in `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel'.
+<suppressed ~6 debug messages>
+Finding identical cells in module `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel'.
+Computing hashes of 12 cells of `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel'.
+Finding duplicate cells in `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel'.
+Finding identical cells in module `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank'.
+Computing hashes of 299 cells of `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank'.
+Finding duplicate cells in `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank'.
+Computing hashes of 251 cells of `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank'.
+Finding duplicate cells in `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank'.
+<suppressed ~144 debug messages>
+Removed a total of 50 cells.
+
+6.6.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \axi4_lite_slave..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+    dead port 2/2 on $mux $procmux$225.
+Removed 1 multiplexer ports.
+<suppressed ~296 debug messages>
+
+6.6.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \axi4_lite_slave.
+  Optimizing cells in module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel.
+  Optimizing cells in module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel.
+  Optimizing cells in module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.
+Performed a total of 0 changes.
+
+6.6.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\axi4_lite_slave'.
+Computing hashes of 3 cells of `\axi4_lite_slave'.
+Finding duplicate cells in `\axi4_lite_slave'.
+Finding identical cells in module `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel'.
+Computing hashes of 37 cells of `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel'.
+Finding duplicate cells in `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel'.
+Finding identical cells in module `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel'.
+Computing hashes of 12 cells of `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel'.
+Finding duplicate cells in `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel'.
+Finding identical cells in module `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank'.
+Computing hashes of 250 cells of `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank'.
+Finding duplicate cells in `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank'.
+Removed a total of 0 cells.
+
+6.6.6. Executing OPT_DFF pass (perform DFF optimizations).
+
+6.6.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \axi4_lite_slave..
+Finding unused cells or wires in module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel..
+Finding unused cells or wires in module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel..
+Finding unused cells or wires in module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank..
+Removed 0 unused cells and 51 unused wires.
+<suppressed ~2 debug messages>
+
+6.6.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module axi4_lite_slave.
+Optimizing module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel.
+Optimizing module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel.
+Optimizing module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.
+
+6.6.9. Rerunning OPT passes. (Maybe there is more to do..)
+
+6.6.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \axi4_lite_slave..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~295 debug messages>
+
+6.6.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \axi4_lite_slave.
+  Optimizing cells in module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel.
+  Optimizing cells in module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel.
+  Optimizing cells in module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.
+Performed a total of 0 changes.
+
+6.6.12. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\axi4_lite_slave'.
+Computing hashes of 3 cells of `\axi4_lite_slave'.
+Finding duplicate cells in `\axi4_lite_slave'.
+Finding identical cells in module `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel'.
+Computing hashes of 37 cells of `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel'.
+Finding duplicate cells in `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel'.
+Finding identical cells in module `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel'.
+Computing hashes of 12 cells of `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel'.
+Finding duplicate cells in `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel'.
+Finding identical cells in module `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank'.
+Computing hashes of 250 cells of `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank'.
+Finding duplicate cells in `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank'.
+Removed a total of 0 cells.
+
+6.6.13. Executing OPT_DFF pass (perform DFF optimizations).
+
+6.6.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \axi4_lite_slave..
+Finding unused cells or wires in module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel..
+Finding unused cells or wires in module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel..
+Finding unused cells or wires in module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank..
+
+6.6.15. Executing OPT_EXPR pass (perform const folding).
+Optimizing module axi4_lite_slave.
+Optimizing module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel.
+Optimizing module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel.
+Optimizing module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.
+
+6.6.16. Finished fast OPT passes. (There is nothing left to do.)
+
+6.7. Executing FSM pass (extract and optimize FSM).
+
+6.7.1. Executing FSM_DETECT pass (finding FSMs in design).
+Not marking $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel.bresp_reg as FSM state register:
+    Register is connected to module port.
+    Users of register don't seem to benefit from recoding.
+Not marking $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel.rresp_reg as FSM state register:
+    Register is connected to module port.
+    Users of register don't seem to benefit from recoding.
+
+6.7.2. Executing FSM_EXTRACT pass (extracting FSM from design).
+
+6.7.3. Executing FSM_OPT pass (simple optimizations of FSMs).
+
+6.7.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \axi4_lite_slave..
+Finding unused cells or wires in module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel..
+Finding unused cells or wires in module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel..
+Finding unused cells or wires in module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank..
+
+6.7.5. Executing FSM_OPT pass (simple optimizations of FSMs).
+
+6.7.6. Executing FSM_RECODE pass (re-assigning FSM state encoding).
+
+6.7.7. Executing FSM_INFO pass (dumping all available information on FSM cells).
+
+6.7.8. Executing FSM_MAP pass (mapping FSMs to basic logic).
+
+6.8. Executing OPT pass (performing simple optimizations).
+
+6.8.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module axi4_lite_slave.
+Optimizing module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel.
+Optimizing module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel.
+Optimizing module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.
+
+6.8.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\axi4_lite_slave'.
+Computing hashes of 3 cells of `\axi4_lite_slave'.
+Finding duplicate cells in `\axi4_lite_slave'.
+Finding identical cells in module `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel'.
+Computing hashes of 37 cells of `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel'.
+Finding duplicate cells in `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel'.
+Finding identical cells in module `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel'.
+Computing hashes of 12 cells of `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel'.
+Finding duplicate cells in `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel'.
+Finding identical cells in module `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank'.
+Computing hashes of 250 cells of `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank'.
+Finding duplicate cells in `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank'.
+Removed a total of 0 cells.
+
+6.8.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \axi4_lite_slave..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~295 debug messages>
+
+6.8.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \axi4_lite_slave.
+  Optimizing cells in module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel.
+  Optimizing cells in module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel.
+  Optimizing cells in module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.
+Performed a total of 0 changes.
+
+6.8.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\axi4_lite_slave'.
+Computing hashes of 3 cells of `\axi4_lite_slave'.
+Finding duplicate cells in `\axi4_lite_slave'.
+Finding identical cells in module `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel'.
+Computing hashes of 37 cells of `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel'.
+Finding duplicate cells in `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel'.
+Finding identical cells in module `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel'.
+Computing hashes of 12 cells of `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel'.
+Finding duplicate cells in `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel'.
+Finding identical cells in module `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank'.
+Computing hashes of 250 cells of `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank'.
+Finding duplicate cells in `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank'.
+Removed a total of 0 cells.
+
+6.8.6. Executing OPT_DFF pass (perform DFF optimizations).
+Adding EN signal on $procdff$1312 ($adff) from module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel (D = \s_axi_awaddr, Q = \awaddr_reg).
+Adding EN signal on $procdff$1342 ($adff) from module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel (D = $procmux$164_Y, Q = \bresp_reg).
+Adding EN signal on $procdff$1327 ($adff) from module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel (D = $0\aw_pending[0:0], Q = \aw_pending).
+Adding EN signal on $procdff$1317 ($adff) from module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel (D = \s_axi_wdata, Q = \wdata_reg).
+Adding EN signal on $procdff$1337 ($adff) from module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel (D = $0\response_pending[0:0], Q = \response_pending).
+Adding EN signal on $procdff$1307 ($adff) from module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel (D = $0\s_axi_bvalid[0:0], Q = \s_axi_bvalid).
+Adding EN signal on $procdff$1322 ($adff) from module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel (D = \s_axi_wstrb, Q = \wstrb_reg).
+Adding EN signal on $procdff$1332 ($adff) from module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel (D = $0\w_pending[0:0], Q = \w_pending).
+Adding EN signal on $procdff$1347 ($adff) from module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel (D = $0\s_axi_rvalid[0:0], Q = \s_axi_rvalid).
+Adding EN signal on $procdff$1357 ($adff) from module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel (D = $procmux$192_Y, Q = \rresp_reg).
+Adding EN signal on $procdff$1352 ($adff) from module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel (D = $procmux$198_Y, Q = \rdata_reg).
+Adding EN signal on $procdff$1439 ($adff) from module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank (D = \wr_data [7:0], Q = \regs[13] [7:0]).
+Adding EN signal on $procdff$1439 ($adff) from module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank (D = \wr_data [15:8], Q = \regs[13] [15:8]).
+Adding EN signal on $procdff$1439 ($adff) from module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank (D = \wr_data [23:16], Q = \regs[13] [23:16]).
+Adding EN signal on $procdff$1439 ($adff) from module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank (D = \wr_data [31:24], Q = \regs[13] [31:24]).
+Adding EN signal on $procdff$1399 ($adff) from module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank (D = \wr_data [7:0], Q = \regs[5] [7:0]).
+Adding EN signal on $procdff$1399 ($adff) from module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank (D = \wr_data [15:8], Q = \regs[5] [15:8]).
+Adding EN signal on $procdff$1399 ($adff) from module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank (D = \wr_data [23:16], Q = \regs[5] [23:16]).
+Adding EN signal on $procdff$1399 ($adff) from module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank (D = \wr_data [31:24], Q = \regs[5] [31:24]).
+Adding EN signal on $procdff$1404 ($adff) from module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank (D = \wr_data [7:0], Q = \regs[6] [7:0]).
+Adding EN signal on $procdff$1404 ($adff) from module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank (D = \wr_data [15:8], Q = \regs[6] [15:8]).
+Adding EN signal on $procdff$1404 ($adff) from module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank (D = \wr_data [23:16], Q = \regs[6] [23:16]).
+Adding EN signal on $procdff$1404 ($adff) from module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank (D = \wr_data [31:24], Q = \regs[6] [31:24]).
+Adding EN signal on $procdff$1394 ($adff) from module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank (D = \wr_data [7:0], Q = \regs[4] [7:0]).
+Adding EN signal on $procdff$1394 ($adff) from module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank (D = \wr_data [15:8], Q = \regs[4] [15:8]).
+Adding EN signal on $procdff$1394 ($adff) from module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank (D = \wr_data [23:16], Q = \regs[4] [23:16]).
+Adding EN signal on $procdff$1394 ($adff) from module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank (D = \wr_data [31:24], Q = \regs[4] [31:24]).
+Adding EN signal on $procdff$1419 ($adff) from module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank (D = \wr_data [7:0], Q = \regs[9] [7:0]).
+Adding EN signal on $procdff$1419 ($adff) from module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank (D = \wr_data [15:8], Q = \regs[9] [15:8]).
+Adding EN signal on $procdff$1419 ($adff) from module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank (D = \wr_data [23:16], Q = \regs[9] [23:16]).
+Adding EN signal on $procdff$1419 ($adff) from module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank (D = \wr_data [31:24], Q = \regs[9] [31:24]).
+Adding EN signal on $procdff$1414 ($adff) from module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank (D = \wr_data [7:0], Q = \regs[8] [7:0]).
+Adding EN signal on $procdff$1414 ($adff) from module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank (D = \wr_data [15:8], Q = \regs[8] [15:8]).
+Adding EN signal on $procdff$1414 ($adff) from module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank (D = \wr_data [23:16], Q = \regs[8] [23:16]).
+Adding EN signal on $procdff$1414 ($adff) from module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank (D = \wr_data [31:24], Q = \regs[8] [31:24]).
+Adding EN signal on $procdff$1449 ($adff) from module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank (D = \wr_data [7:0], Q = \regs[15] [7:0]).
+Adding EN signal on $procdff$1449 ($adff) from module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank (D = \wr_data [15:8], Q = \regs[15] [15:8]).
+Adding EN signal on $procdff$1449 ($adff) from module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank (D = \wr_data [23:16], Q = \regs[15] [23:16]).
+Adding EN signal on $procdff$1449 ($adff) from module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank (D = \wr_data [31:24], Q = \regs[15] [31:24]).
+Adding EN signal on $procdff$1389 ($adff) from module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank (D = \wr_data [7:0], Q = \regs[3] [7:0]).
+Adding EN signal on $procdff$1389 ($adff) from module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank (D = \wr_data [15:8], Q = \regs[3] [15:8]).
+Adding EN signal on $procdff$1389 ($adff) from module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank (D = \wr_data [23:16], Q = \regs[3] [23:16]).
+Adding EN signal on $procdff$1389 ($adff) from module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank (D = \wr_data [31:24], Q = \regs[3] [31:24]).
+Adding EN signal on $procdff$1429 ($adff) from module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank (D = \wr_data [7:0], Q = \regs[11] [7:0]).
+Adding EN signal on $procdff$1429 ($adff) from module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank (D = \wr_data [15:8], Q = \regs[11] [15:8]).
+Adding EN signal on $procdff$1429 ($adff) from module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank (D = \wr_data [23:16], Q = \regs[11] [23:16]).
+Adding EN signal on $procdff$1429 ($adff) from module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank (D = \wr_data [31:24], Q = \regs[11] [31:24]).
+Adding EN signal on $procdff$1384 ($adff) from module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank (D = \wr_data [7:0], Q = \regs[2] [7:0]).
+Adding EN signal on $procdff$1384 ($adff) from module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank (D = \wr_data [15:8], Q = \regs[2] [15:8]).
+Adding EN signal on $procdff$1384 ($adff) from module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank (D = \wr_data [23:16], Q = \regs[2] [23:16]).
+Adding EN signal on $procdff$1384 ($adff) from module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank (D = \wr_data [31:24], Q = \regs[2] [31:24]).
+Adding EN signal on $procdff$1424 ($adff) from module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank (D = \wr_data [7:0], Q = \regs[10] [7:0]).
+Adding EN signal on $procdff$1424 ($adff) from module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank (D = \wr_data [15:8], Q = \regs[10] [15:8]).
+Adding EN signal on $procdff$1424 ($adff) from module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank (D = \wr_data [23:16], Q = \regs[10] [23:16]).
+Adding EN signal on $procdff$1424 ($adff) from module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank (D = \wr_data [31:24], Q = \regs[10] [31:24]).
+Adding EN signal on $procdff$1379 ($adff) from module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank (D = \wr_data [7:0], Q = \regs[1] [7:0]).
+Adding EN signal on $procdff$1379 ($adff) from module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank (D = \wr_data [15:8], Q = \regs[1] [15:8]).
+Adding EN signal on $procdff$1379 ($adff) from module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank (D = \wr_data [23:16], Q = \regs[1] [23:16]).
+Adding EN signal on $procdff$1379 ($adff) from module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank (D = \wr_data [31:24], Q = \regs[1] [31:24]).
+Adding EN signal on $procdff$1409 ($adff) from module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank (D = \wr_data [7:0], Q = \regs[7] [7:0]).
+Adding EN signal on $procdff$1409 ($adff) from module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank (D = \wr_data [15:8], Q = \regs[7] [15:8]).
+Adding EN signal on $procdff$1409 ($adff) from module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank (D = \wr_data [23:16], Q = \regs[7] [23:16]).
+Adding EN signal on $procdff$1409 ($adff) from module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank (D = \wr_data [31:24], Q = \regs[7] [31:24]).
+Adding EN signal on $procdff$1374 ($adff) from module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank (D = \wr_data [7:0], Q = \regs[0] [7:0]).
+Adding EN signal on $procdff$1374 ($adff) from module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank (D = \wr_data [15:8], Q = \regs[0] [15:8]).
+Adding EN signal on $procdff$1374 ($adff) from module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank (D = \wr_data [23:16], Q = \regs[0] [23:16]).
+Adding EN signal on $procdff$1374 ($adff) from module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank (D = \wr_data [31:24], Q = \regs[0] [31:24]).
+Adding EN signal on $procdff$1434 ($adff) from module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank (D = \wr_data [7:0], Q = \regs[12] [7:0]).
+Adding EN signal on $procdff$1434 ($adff) from module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank (D = \wr_data [15:8], Q = \regs[12] [15:8]).
+Adding EN signal on $procdff$1434 ($adff) from module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank (D = \wr_data [23:16], Q = \regs[12] [23:16]).
+Adding EN signal on $procdff$1434 ($adff) from module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank (D = \wr_data [31:24], Q = \regs[12] [31:24]).
+Adding EN signal on $procdff$1444 ($adff) from module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank (D = \wr_data [7:0], Q = \regs[14] [7:0]).
+Adding EN signal on $procdff$1444 ($adff) from module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank (D = \wr_data [15:8], Q = \regs[14] [15:8]).
+Adding EN signal on $procdff$1444 ($adff) from module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank (D = \wr_data [23:16], Q = \regs[14] [23:16]).
+Adding EN signal on $procdff$1444 ($adff) from module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank (D = \wr_data [31:24], Q = \regs[14] [31:24]).
+
+6.8.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \axi4_lite_slave..
+Finding unused cells or wires in module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel..
+Finding unused cells or wires in module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel..
+Finding unused cells or wires in module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank..
+Removed 198 unused cells and 150 unused wires.
+<suppressed ~201 debug messages>
+
+6.8.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module axi4_lite_slave.
+Optimizing module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel.
+<suppressed ~4 debug messages>
+Optimizing module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel.
+<suppressed ~1 debug messages>
+Optimizing module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.
+
+6.8.9. Rerunning OPT passes. (Maybe there is more to do..)
+
+6.8.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \axi4_lite_slave..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~30 debug messages>
+
+6.8.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \axi4_lite_slave.
+  Optimizing cells in module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel.
+  Optimizing cells in module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel.
+  Optimizing cells in module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.
+Performed a total of 0 changes.
+
+6.8.12. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\axi4_lite_slave'.
+Computing hashes of 3 cells of `\axi4_lite_slave'.
+Finding duplicate cells in `\axi4_lite_slave'.
+Finding identical cells in module `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel'.
+Computing hashes of 37 cells of `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel'.
+Finding duplicate cells in `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel'.
+Computing hashes of 35 cells of `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel'.
+Finding duplicate cells in `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel'.
+Computing hashes of 34 cells of `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel'.
+Finding duplicate cells in `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel'.
+Computing hashes of 33 cells of `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel'.
+Finding duplicate cells in `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel'.
+<suppressed ~12 debug messages>
+Finding identical cells in module `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel'.
+Computing hashes of 11 cells of `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel'.
+Finding duplicate cells in `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel'.
+Finding identical cells in module `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank'.
+Computing hashes of 170 cells of `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank'.
+Finding duplicate cells in `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank'.
+Removed a total of 4 cells.
+
+6.8.13. Executing OPT_DFF pass (perform DFF optimizations).
+
+6.8.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \axi4_lite_slave..
+Finding unused cells or wires in module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel..
+Finding unused cells or wires in module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel..
+Finding unused cells or wires in module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank..
+Removed 0 unused cells and 3 unused wires.
+<suppressed ~1 debug messages>
+
+6.8.15. Executing OPT_EXPR pass (perform const folding).
+Optimizing module axi4_lite_slave.
+Optimizing module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel.
+Optimizing module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel.
+Optimizing module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.
+
+6.8.16. Rerunning OPT passes. (Maybe there is more to do..)
+
+6.8.17. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \axi4_lite_slave..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~27 debug messages>
+
+6.8.18. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \axi4_lite_slave.
+  Optimizing cells in module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel.
+  Optimizing cells in module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel.
+  Optimizing cells in module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.
+Performed a total of 0 changes.
+
+6.8.19. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\axi4_lite_slave'.
+Computing hashes of 3 cells of `\axi4_lite_slave'.
+Finding duplicate cells in `\axi4_lite_slave'.
+Finding identical cells in module `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel'.
+Computing hashes of 33 cells of `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel'.
+Finding duplicate cells in `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel'.
+Finding identical cells in module `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel'.
+Computing hashes of 11 cells of `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel'.
+Finding duplicate cells in `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel'.
+Finding identical cells in module `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank'.
+Computing hashes of 170 cells of `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank'.
+Finding duplicate cells in `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank'.
+Removed a total of 0 cells.
+
+6.8.20. Executing OPT_DFF pass (perform DFF optimizations).
+
+6.8.21. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \axi4_lite_slave..
+Finding unused cells or wires in module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel..
+Finding unused cells or wires in module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel..
+Finding unused cells or wires in module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank..
+
+6.8.22. Executing OPT_EXPR pass (perform const folding).
+Optimizing module axi4_lite_slave.
+Optimizing module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel.
+Optimizing module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel.
+Optimizing module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.
+
+6.8.23. Finished fast OPT passes. (There is nothing left to do.)
+
+6.9. Executing WREDUCE pass (reducing word size of cells).
+Removed top 1 bits (of 4) from port B of cell $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.$procmux$217_CMP0 ($eq).
+Removed top 1 bits (of 4) from port B of cell $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.$procmux$218_CMP0 ($eq).
+Removed top 1 bits (of 4) from port B of cell $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.$procmux$219_CMP0 ($eq).
+Removed top 1 bits (of 4) from port B of cell $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.$procmux$220_CMP0 ($eq).
+Removed top 2 bits (of 4) from port B of cell $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.$procmux$221_CMP0 ($eq).
+Removed top 2 bits (of 4) from port B of cell $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.$procmux$222_CMP0 ($eq).
+Removed top 3 bits (of 4) from port B of cell $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.$procmux$223_CMP0 ($eq).
+Removed top 1 bits (of 4) from port B of cell $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.$procmux$1140_CMP0 ($eq).
+Removed top 1 bits (of 4) from port B of cell $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.$procmux$1157_CMP0 ($eq).
+Removed top 1 bits (of 4) from port B of cell $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.$procmux$1175_CMP0 ($eq).
+Removed top 1 bits (of 4) from port B of cell $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.$procmux$1194_CMP0 ($eq).
+Removed top 2 bits (of 4) from port B of cell $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.$procmux$1214_CMP0 ($eq).
+Removed top 2 bits (of 4) from port B of cell $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.$procmux$1235_CMP0 ($eq).
+Removed top 3 bits (of 4) from port B of cell $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.$procmux$1257_CMP0 ($eq).
+
+6.10. Executing PEEPOPT pass (run peephole optimizers).
+
+6.11. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \axi4_lite_slave..
+Finding unused cells or wires in module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel..
+Finding unused cells or wires in module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel..
+Finding unused cells or wires in module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank..
+
+6.12. Executing ALUMACC pass (create $alu and $macc cells).
+Extracting $alu and $macc cells in module axi4_lite_slave:
+  created 0 $alu and 0 $macc cells.
+Extracting $alu and $macc cells in module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel:
+  created 0 $alu and 0 $macc cells.
+Extracting $alu and $macc cells in module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel:
+  created 0 $alu and 0 $macc cells.
+Extracting $alu and $macc cells in module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank:
+  created 0 $alu and 0 $macc cells.
+
+6.13. Executing SHARE pass (SAT-based resource sharing).
+
+6.14. Executing OPT pass (performing simple optimizations).
+
+6.14.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module axi4_lite_slave.
+Optimizing module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel.
+Optimizing module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel.
+Optimizing module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.
+
+6.14.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\axi4_lite_slave'.
+Computing hashes of 3 cells of `\axi4_lite_slave'.
+Finding duplicate cells in `\axi4_lite_slave'.
+Finding identical cells in module `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel'.
+Computing hashes of 33 cells of `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel'.
+Finding duplicate cells in `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel'.
+Finding identical cells in module `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel'.
+Computing hashes of 11 cells of `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel'.
+Finding duplicate cells in `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel'.
+Finding identical cells in module `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank'.
+Computing hashes of 170 cells of `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank'.
+Finding duplicate cells in `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank'.
+Removed a total of 0 cells.
+
+6.14.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \axi4_lite_slave..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~27 debug messages>
+
+6.14.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \axi4_lite_slave.
+  Optimizing cells in module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel.
+  Optimizing cells in module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel.
+  Optimizing cells in module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.
+Performed a total of 0 changes.
+
+6.14.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\axi4_lite_slave'.
+Computing hashes of 3 cells of `\axi4_lite_slave'.
+Finding duplicate cells in `\axi4_lite_slave'.
+Finding identical cells in module `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel'.
+Computing hashes of 33 cells of `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel'.
+Finding duplicate cells in `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel'.
+Finding identical cells in module `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel'.
+Computing hashes of 11 cells of `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel'.
+Finding duplicate cells in `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel'.
+Finding identical cells in module `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank'.
+Computing hashes of 170 cells of `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank'.
+Finding duplicate cells in `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank'.
+Removed a total of 0 cells.
+
+6.14.6. Executing OPT_DFF pass (perform DFF optimizations).
+
+6.14.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \axi4_lite_slave..
+Finding unused cells or wires in module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel..
+Finding unused cells or wires in module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel..
+Finding unused cells or wires in module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank..
+
+6.14.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module axi4_lite_slave.
+Optimizing module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel.
+Optimizing module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel.
+Optimizing module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.
+
+6.14.9. Finished fast OPT passes. (There is nothing left to do.)
+
+6.15. Executing MEMORY pass.
+
+6.15.1. Executing OPT_MEM pass (optimize memories).
+Performed a total of 0 transformations.
+
+6.15.2. Executing OPT_MEM_PRIORITY pass (removing unnecessary memory write priority relations).
+Performed a total of 0 transformations.
+
+6.15.3. Executing OPT_MEM_FEEDBACK pass (finding memory read-to-write feedback paths).
+
+6.15.4. Executing MEMORY_BMUX2ROM pass (converting muxes to ROMs).
+
+6.15.5. Executing MEMORY_DFF pass (merging $dff cells to $memrd).
+
+6.15.6. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \axi4_lite_slave..
+Finding unused cells or wires in module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel..
+Finding unused cells or wires in module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel..
+Finding unused cells or wires in module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank..
+
+6.15.7. Executing MEMORY_SHARE pass (consolidating $memrd/$memwr cells).
+
+6.15.8. Executing OPT_MEM_WIDEN pass (optimize memories where all ports are wide).
+Performed a total of 0 transformations.
+
+6.15.9. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \axi4_lite_slave..
+Finding unused cells or wires in module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel..
+Finding unused cells or wires in module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel..
+Finding unused cells or wires in module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank..
+
+6.15.10. Executing MEMORY_COLLECT pass (generating $mem cells).
+
+6.16. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \axi4_lite_slave..
+Finding unused cells or wires in module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel..
+Finding unused cells or wires in module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel..
+Finding unused cells or wires in module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank..
+
+6.17. Executing OPT pass (performing simple optimizations).
+
+6.17.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module axi4_lite_slave.
+Optimizing module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel.
+<suppressed ~3 debug messages>
+Optimizing module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel.
+<suppressed ~3 debug messages>
+Optimizing module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.
+<suppressed ~1 debug messages>
+
+6.17.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\axi4_lite_slave'.
+Computing hashes of 3 cells of `\axi4_lite_slave'.
+Finding duplicate cells in `\axi4_lite_slave'.
+Finding identical cells in module `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel'.
+Computing hashes of 30 cells of `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel'.
+Finding duplicate cells in `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel'.
+Computing hashes of 29 cells of `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel'.
+Finding duplicate cells in `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel'.
+<suppressed ~3 debug messages>
+Finding identical cells in module `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel'.
+Computing hashes of 9 cells of `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel'.
+Finding duplicate cells in `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel'.
+Finding identical cells in module `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank'.
+Computing hashes of 170 cells of `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank'.
+Finding duplicate cells in `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank'.
+Removed a total of 1 cells.
+
+6.17.3. Executing OPT_DFF pass (perform DFF optimizations).
+
+6.17.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \axi4_lite_slave..
+Finding unused cells or wires in module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel..
+Finding unused cells or wires in module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel..
+Finding unused cells or wires in module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank..
+Removed 1 unused cells and 7 unused wires.
+<suppressed ~4 debug messages>
+
+6.17.5. Finished fast OPT passes.
+
+6.18. Executing MEMORY_MAP pass (converting memories to logic and flip-flops).
+
+6.19. Executing OPT pass (performing simple optimizations).
+
+6.19.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module axi4_lite_slave.
+Optimizing module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel.
+<suppressed ~2 debug messages>
+Optimizing module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel.
+Optimizing module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.
+
+6.19.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\axi4_lite_slave'.
+Computing hashes of 3 cells of `\axi4_lite_slave'.
+Finding duplicate cells in `\axi4_lite_slave'.
+Finding identical cells in module `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel'.
+Computing hashes of 29 cells of `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel'.
+Finding duplicate cells in `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel'.
+Finding identical cells in module `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel'.
+Computing hashes of 9 cells of `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel'.
+Finding duplicate cells in `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel'.
+Finding identical cells in module `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank'.
+Computing hashes of 169 cells of `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank'.
+Finding duplicate cells in `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank'.
+Removed a total of 0 cells.
+
+6.19.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \axi4_lite_slave..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~15 debug messages>
+
+6.19.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \axi4_lite_slave.
+  Optimizing cells in module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel.
+    Consolidated identical input bits for $mux cell $procmux$164:
+      Old ports: A=2'10, B=2'00, Y=$procmux$164_Y
+      New ports: A=1'1, B=1'0, Y=$procmux$164_Y [1]
+      New connections: $procmux$164_Y [0] = 1'0
+  Optimizing cells in module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel.
+  Optimizing cells in module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel.
+    Consolidated identical input bits for $mux cell $procmux$192:
+      Old ports: A=2'10, B=2'00, Y=$procmux$192_Y
+      New ports: A=1'1, B=1'0, Y=$procmux$192_Y [1]
+      New connections: $procmux$192_Y [0] = 1'0
+  Optimizing cells in module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel.
+  Optimizing cells in module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.
+Performed a total of 2 changes.
+
+6.19.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\axi4_lite_slave'.
+Computing hashes of 3 cells of `\axi4_lite_slave'.
+Finding duplicate cells in `\axi4_lite_slave'.
+Finding identical cells in module `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel'.
+Computing hashes of 29 cells of `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel'.
+Finding duplicate cells in `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel'.
+Finding identical cells in module `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel'.
+Computing hashes of 9 cells of `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel'.
+Finding duplicate cells in `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel'.
+Finding identical cells in module `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank'.
+Computing hashes of 169 cells of `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank'.
+Finding duplicate cells in `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank'.
+Removed a total of 0 cells.
+
+6.19.6. Executing OPT_SHARE pass.
+
+6.19.7. Executing OPT_DFF pass (perform DFF optimizations).
+Setting constant 0-bit at position 0 on $auto$ff.cc:337:slice$1491 ($adffe) from module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel.
+Setting constant 0-bit at position 0 on $auto$ff.cc:337:slice$1509 ($adffe) from module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel.
+
+6.19.8. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \axi4_lite_slave..
+Finding unused cells or wires in module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel..
+Finding unused cells or wires in module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel..
+Finding unused cells or wires in module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank..
+
+6.19.9. Executing OPT_EXPR pass (perform const folding).
+Optimizing module axi4_lite_slave.
+Optimizing module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel.
+<suppressed ~1 debug messages>
+Optimizing module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel.
+<suppressed ~1 debug messages>
+Optimizing module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.
+
+6.19.10. Rerunning OPT passes. (Maybe there is more to do..)
+
+6.19.11. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \axi4_lite_slave..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~11 debug messages>
+
+6.19.12. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \axi4_lite_slave.
+  Optimizing cells in module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel.
+  Optimizing cells in module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel.
+  Optimizing cells in module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.
+Performed a total of 0 changes.
+
+6.19.13. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\axi4_lite_slave'.
+Computing hashes of 3 cells of `\axi4_lite_slave'.
+Finding duplicate cells in `\axi4_lite_slave'.
+Finding identical cells in module `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel'.
+Computing hashes of 29 cells of `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel'.
+Finding duplicate cells in `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel'.
+Finding identical cells in module `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel'.
+Computing hashes of 9 cells of `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel'.
+Finding duplicate cells in `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel'.
+Finding identical cells in module `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank'.
+Computing hashes of 169 cells of `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank'.
+Finding duplicate cells in `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank'.
+Removed a total of 0 cells.
+
+6.19.14. Executing OPT_SHARE pass.
+
+6.19.15. Executing OPT_DFF pass (perform DFF optimizations).
+
+6.19.16. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \axi4_lite_slave..
+Finding unused cells or wires in module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel..
+Finding unused cells or wires in module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel..
+Finding unused cells or wires in module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank..
+
+6.19.17. Executing OPT_EXPR pass (perform const folding).
+Optimizing module axi4_lite_slave.
+Optimizing module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel.
+Optimizing module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel.
+Optimizing module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.
+
+6.19.18. Finished fast OPT passes. (There is nothing left to do.)
+
+6.20. Executing TECHMAP pass (map to technology primitives).
+
+6.20.1. Executing Verilog-2005 frontend: /opt/homebrew/bin/../share/yosys/techmap.v
+Parsing Verilog input from `/opt/homebrew/bin/../share/yosys/techmap.v' to AST representation.
+Generating RTLIL representation for module `\_90_simplemap_bool_ops'.
+Generating RTLIL representation for module `\_90_simplemap_reduce_ops'.
+Generating RTLIL representation for module `\_90_simplemap_logic_ops'.
+Generating RTLIL representation for module `\_90_simplemap_compare_ops'.
+Generating RTLIL representation for module `\_90_simplemap_various'.
+Generating RTLIL representation for module `\_90_simplemap_registers'.
+Generating RTLIL representation for module `\_90_shift_ops_shr_shl_sshl_sshr'.
+Generating RTLIL representation for module `\_90_shift_shiftx'.
+Generating RTLIL representation for module `\_90_fa'.
+Generating RTLIL representation for module `\_90_lcu_brent_kung'.
+Generating RTLIL representation for module `\_90_alu'.
+Generating RTLIL representation for module `\_90_macc'.
+Generating RTLIL representation for module `\_90_alumacc'.
+Generating RTLIL representation for module `$__div_mod_u'.
+Generating RTLIL representation for module `$__div_mod_trunc'.
+Generating RTLIL representation for module `\_90_div'.
+Generating RTLIL representation for module `\_90_mod'.
+Generating RTLIL representation for module `$__div_mod_floor'.
+Generating RTLIL representation for module `\_90_divfloor'.
+Generating RTLIL representation for module `\_90_modfloor'.
+Generating RTLIL representation for module `\_90_pow'.
+Generating RTLIL representation for module `\_90_demux'.
+Generating RTLIL representation for module `\_90_lut'.
+Generating RTLIL representation for module `$connect'.
+Generating RTLIL representation for module `$input_port'.
+Successfully finished Verilog frontend.
+
+6.20.2. Continuing TECHMAP pass.
+Using extmapper simplemap for cells of type $reduce_and.
+Using extmapper simplemap for cells of type $adffe.
+Using extmapper simplemap for cells of type $logic_not.
+Using extmapper simplemap for cells of type $logic_and.
+Using extmapper simplemap for cells of type $eq.
+Using extmapper simplemap for cells of type $pmux.
+Using extmapper simplemap for cells of type $mux.
+Using extmapper simplemap for cells of type $reduce_bool.
+Using extmapper simplemap for cells of type $not.
+Using extmapper simplemap for cells of type $logic_or.
+No more expansions possible.
+<suppressed ~284 debug messages>
+
+6.21. Executing OPT pass (performing simple optimizations).
+
+6.21.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module axi4_lite_slave.
+Optimizing module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel.
+Optimizing module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel.
+Optimizing module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.
+<suppressed ~120 debug messages>
+
+6.21.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\axi4_lite_slave'.
+Computing hashes of 3 cells of `\axi4_lite_slave'.
+Finding duplicate cells in `\axi4_lite_slave'.
+Finding identical cells in module `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel'.
+Computing hashes of 159 cells of `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel'.
+Finding duplicate cells in `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel'.
+Finding identical cells in module `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel'.
+Computing hashes of 71 cells of `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel'.
+Finding duplicate cells in `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel'.
+Finding identical cells in module `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank'.
+Computing hashes of 1894 cells of `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank'.
+Finding duplicate cells in `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank'.
+Computing hashes of 1768 cells of `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank'.
+Finding duplicate cells in `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank'.
+Computing hashes of 1732 cells of `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank'.
+Finding duplicate cells in `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank'.
+<suppressed ~486 debug messages>
+Removed a total of 162 cells.
+
+6.21.3. Executing OPT_DFF pass (perform DFF optimizations).
+
+6.21.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \axi4_lite_slave..
+Finding unused cells or wires in module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel..
+Finding unused cells or wires in module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel..
+Finding unused cells or wires in module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank..
+Removed 0 unused cells and 261 unused wires.
+<suppressed ~3 debug messages>
+
+6.21.5. Finished fast OPT passes.
+
+6.22. Executing ABC pass (technology mapping using ABC).
+
+6.22.1. Extracting gate netlist of module `\axi4_lite_slave' to `<abc-temp-dir>/input.blif'..
+
+6.22.1.1. Executed ABC.
+Extracted 0 gates and 0 wires to a netlist network with 0 inputs and 0 outputs.
+Don't call ABC as there is nothing to map.
+Removing temp directory.
+
+6.22.2. Extracting gate netlist of module `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel' to `<abc-temp-dir>/input.blif'..
+
+6.22.2.1. Executed ABC.
+Extracted 87 gates and 230 wires to a netlist network with 143 inputs and 80 outputs.
+Running ABC script: <abc-temp-dir>/abc.script
+ABC: ======== ABC command line "source <abc-temp-dir>/abc.script"
+ABC: + read_blif <abc-temp-dir>/input.blif 
+ABC: + read_library <abc-temp-dir>/stdcells.genlib 
+ABC: + strash 
+ABC: + &get -n 
+ABC: + &fraig -x 
+ABC: + &put 
+ABC: + scorr 
+ABC: Warning: The network is combinational (run "fraig" or "fraig_sweep").
+ABC: + dc2 
+ABC: + dretime 
+ABC: + strash 
+ABC: + &get -n 
+ABC: + &dch -f 
+ABC: + &nf 
+ABC: + &put 
+ABC: + write_blif <abc-temp-dir>/output.blif 
+
+6.22.2.2. Re-integrating ABC results.
+ABC RESULTS:            ANDNOT cells:        1
+ABC RESULTS:               MUX cells:       68
+ABC RESULTS:              NAND cells:        7
+ABC RESULTS:               NOR cells:        4
+ABC RESULTS:               NOT cells:        4
+ABC RESULTS:                OR cells:        1
+ABC RESULTS:        internal signals:        7
+ABC RESULTS:           input signals:      143
+ABC RESULTS:          output signals:       80
+Removing temp directory.
+
+6.22.3. Extracting gate netlist of module `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel' to `<abc-temp-dir>/input.blif'..
+
+6.22.3.1. Executed ABC.
+Extracted 37 gates and 74 wires to a netlist network with 36 inputs and 36 outputs.
+Running ABC script: <abc-temp-dir>/abc.script
+ABC: ======== ABC command line "source <abc-temp-dir>/abc.script"
+ABC: + read_blif <abc-temp-dir>/input.blif 
+ABC: + read_library <abc-temp-dir>/stdcells.genlib 
+ABC: + strash 
+ABC: + &get -n 
+ABC: + &fraig -x 
+ABC: + &put 
+ABC: + scorr 
+ABC: Warning: The network is combinational (run "fraig" or "fraig_sweep").
+ABC: + dc2 
+ABC: + dretime 
+ABC: + strash 
+ABC: + &get -n 
+ABC: + &dch -f 
+ABC: + &nf 
+ABC: + &put 
+ABC: + write_blif <abc-temp-dir>/output.blif 
+
+6.22.3.2. Re-integrating ABC results.
+ABC RESULTS:               AND cells:       32
+ABC RESULTS:            ANDNOT cells:        1
+ABC RESULTS:               MUX cells:        1
+ABC RESULTS:               NOT cells:        2
+ABC RESULTS:        internal signals:        2
+ABC RESULTS:           input signals:       36
+ABC RESULTS:          output signals:       36
+Removing temp directory.
+
+6.22.4. Extracting gate netlist of module `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank' to `<abc-temp-dir>/input.blif'..
+
+6.22.4.1. Executed ABC.
+Extracted 1220 gates and 1803 wires to a netlist network with 582 inputs and 98 outputs.
+Running ABC script: <abc-temp-dir>/abc.script
+ABC: ======== ABC command line "source <abc-temp-dir>/abc.script"
+ABC: + read_blif <abc-temp-dir>/input.blif 
+ABC: + read_library <abc-temp-dir>/stdcells.genlib 
+ABC: + strash 
+ABC: + &get -n 
+ABC: + &fraig -x 
+ABC: + &put 
+ABC: + scorr 
+ABC: Warning: The network is combinational (run "fraig" or "fraig_sweep").
+ABC: + dc2 
+ABC: + dretime 
+ABC: + strash 
+ABC: + &get -n 
+ABC: + &dch -f 
+ABC: + &nf 
+ABC: + &put 
+ABC: + write_blif <abc-temp-dir>/output.blif 
+
+6.22.4.2. Re-integrating ABC results.
+ABC RESULTS:               AND cells:      612
+ABC RESULTS:            ANDNOT cells:        8
+ABC RESULTS:              NAND cells:      544
+ABC RESULTS:               NOR cells:       32
+ABC RESULTS:        internal signals:     1123
+ABC RESULTS:           input signals:      582
+ABC RESULTS:          output signals:       98
+Removing temp directory.
+Removing global temp directory.
+
+6.23. Executing OPT pass (performing simple optimizations).
+
+6.23.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module axi4_lite_slave.
+Optimizing module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel.
+Optimizing module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel.
+Optimizing module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank.
+
+6.23.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\axi4_lite_slave'.
+Computing hashes of 3 cells of `\axi4_lite_slave'.
+Finding duplicate cells in `\axi4_lite_slave'.
+Finding identical cells in module `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel'.
+Computing hashes of 157 cells of `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel'.
+Finding duplicate cells in `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel'.
+Finding identical cells in module `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel'.
+Computing hashes of 70 cells of `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel'.
+Finding duplicate cells in `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel'.
+Finding identical cells in module `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank'.
+Computing hashes of 1708 cells of `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank'.
+Finding duplicate cells in `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank'.
+Removed a total of 0 cells.
+
+6.23.3. Executing OPT_DFF pass (perform DFF optimizations).
+
+6.23.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \axi4_lite_slave..
+Finding unused cells or wires in module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel..
+Finding unused cells or wires in module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel..
+Finding unused cells or wires in module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank..
+Removed 0 unused cells and 1671 unused wires.
+<suppressed ~3 debug messages>
+
+6.23.5. Finished fast OPT passes.
+
+6.24. Executing HIERARCHY pass (managing design hierarchy).
+Attribute `top' found on module `axi4_lite_slave'. Setting top module to axi4_lite_slave.
+
+6.24.1. Analyzing design hierarchy..
+Top module:  \axi4_lite_slave
+Used module:     $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank
+Used module:     $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel
+Used module:     $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel
+
+6.24.2. Analyzing design hierarchy..
+Top module:  \axi4_lite_slave
+Used module:     $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank
+Used module:     $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel
+Used module:     $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel
+Removed 0 unused modules.
+
+6.25. Printing statistics.
+
+=== axi4_lite_slave ===
+
+        +----------Local Count, excluding submodules.
+        | 
+       28 wires
+      284 wire bits
+       28 public wires
+      284 public wire bits
+       19 ports
+      148 port bits
+        3 submodules
+        1   $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel
+        1   $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel
+        1   $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank
+
+=== $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel ===
+
+        +----------Local Count, excluding submodules.
+        | 
+       38 wires
+      235 wire bits
+       27 public wires
+      224 public wire bits
+       17 ports
+      148 port bits
+      157 cells
+        1   $_ANDNOT_
+       72   $_DFFE_PN0P_
+       68   $_MUX_
+        7   $_NAND_
+        4   $_NOR_
+        4   $_NOT_
+        1   $_OR_
+
+=== $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel ===
+
+        +----------Local Count, excluding submodules.
+        | 
+       50 wires
+      207 wire bits
+       16 public wires
+      173 public wire bits
+       13 ports
+      138 port bits
+       70 cells
+        1   $_ANDNOT_
+       32   $_AND_
+       34   $_DFFE_PN0P_
+        1   $_MUX_
+        2   $_NOT_
+
+=== $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank ===
+
+        +----------Local Count, excluding submodules.
+        | 
+     1191 wires
+     1820 wire bits
+       29 public wires
+      658 public wire bits
+       11 ports
+      138 port bits
+     1708 cells
+        8   $_ANDNOT_
+      612   $_AND_
+      512   $_DFFE_PN0P_
+      544   $_NAND_
+       32   $_NOR_
+
+=== design hierarchy ===
+
+        +----------Count including submodules.
+        | 
+     1935 axi4_lite_slave
+       70 $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel
+      157 $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel
+     1708 $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank
+
+        +----------Count including submodules.
+        | 
+     1307 wires
+     2546 wire bits
+      100 public wires
+     1339 public wire bits
+       60 ports
+      572 port bits
+        - memories
+        - memory bits
+        - processes
+     1935 cells
+       10   $_ANDNOT_
+      644   $_AND_
+      618   $_DFFE_PN0P_
+       69   $_MUX_
+      551   $_NAND_
+       36   $_NOR_
+        6   $_NOT_
+        1   $_OR_
+        3 submodules
+        1   $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel
+        1   $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel
+        1   $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank
+
+6.26. Executing CHECK pass (checking for obvious problems).
+Checking module axi4_lite_slave...
+Checking module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel...
+Checking module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel...
+Checking module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank...
+Found and reported 0 problems.
+
+7. Executing CHECK pass (checking for obvious problems).
+Checking module axi4_lite_slave...
+Checking module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel...
+Checking module $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel...
+Checking module $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank...
+Found and reported 0 problems.
+
+8. Printing statistics.
+
+=== axi4_lite_slave ===
+
+        +----------Local Count, excluding submodules.
+        | 
+       28 wires
+      284 wire bits
+       28 public wires
+      284 public wire bits
+       19 ports
+      148 port bits
+        3 submodules
+        1   $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel
+        1   $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel
+        1   $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank
+
+=== $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel ===
+
+        +----------Local Count, excluding submodules.
+        | 
+       38 wires
+      235 wire bits
+       27 public wires
+      224 public wire bits
+       17 ports
+      148 port bits
+      157 cells
+        1   $_ANDNOT_
+       72   $_DFFE_PN0P_
+       68   $_MUX_
+        7   $_NAND_
+        4   $_NOR_
+        4   $_NOT_
+        1   $_OR_
+
+=== $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel ===
+
+        +----------Local Count, excluding submodules.
+        | 
+       50 wires
+      207 wire bits
+       16 public wires
+      173 public wire bits
+       13 ports
+      138 port bits
+       70 cells
+        1   $_ANDNOT_
+       32   $_AND_
+       34   $_DFFE_PN0P_
+        1   $_MUX_
+        2   $_NOT_
+
+=== $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank ===
+
+        +----------Local Count, excluding submodules.
+        | 
+     1191 wires
+     1820 wire bits
+       29 public wires
+      658 public wire bits
+       11 ports
+      138 port bits
+     1708 cells
+        8   $_ANDNOT_
+      612   $_AND_
+      512   $_DFFE_PN0P_
+      544   $_NAND_
+       32   $_NOR_
+
+=== design hierarchy ===
+
+        +----------Count including submodules.
+        | 
+     1935 axi4_lite_slave
+       70 $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel
+      157 $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel
+     1708 $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank
+
+        +----------Count including submodules.
+        | 
+     1307 wires
+     2546 wire bits
+      100 public wires
+     1339 public wire bits
+       60 ports
+      572 port bits
+        - memories
+        - memory bits
+        - processes
+     1935 cells
+       10   $_ANDNOT_
+      644   $_AND_
+      618   $_DFFE_PN0P_
+       69   $_MUX_
+      551   $_NAND_
+       36   $_NOR_
+        6   $_NOT_
+        1   $_OR_
+        3 submodules
+        1   $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel
+        1   $paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel
+        1   $paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank
+
+9. Executing Verilog backend.
+
+9.1. Executing BMUXMAP pass.
+
+9.2. Executing DEMUXMAP pass.
+Dumping module `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_read_channel'.
+Dumping module `$paramod$73a3980ba8a68177b0617f0f620fd34f6ef3e417\axi_write_channel'.
+Dumping module `$paramod$c0fa6a663b414bd3c8ac6ea1f53ee48b451f1d02\register_bank'.
+Dumping module `\axi4_lite_slave'.
+
+Warnings: 1 unique messages, 2 total
+End of script. Logfile hash: b5457ef09a, time: 0.99s, user: 0.11s, system: 0.01s, MEM: 27.02 MB peak
+Yosys 0.69+post (git sha1 143eb14f9cc55d6f8927e68523b0c9d2166ed02c, Release, AppleClang clang++ 21.0.0.21000334)
+Time spent: 70% 1x abc (0 sec), 5% 17x opt_clean (0 sec), ...
