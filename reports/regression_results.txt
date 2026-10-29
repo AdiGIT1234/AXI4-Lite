@@ -1,0 +1,44 @@
+verilator --lint-only --timing --trace --assert -Wall --timescale 1ns/1ps --top-module tb_axi4_lite_slave rtl/register_bank.sv rtl/axi_write_channel.sv rtl/axi_read_channel.sv rtl/axi4_lite_slave.sv rtl/axi_write_assertions.sv tb/tb_axi4_lite_slave.sv
+- V e r i l a t i o n   R e p o r t: Verilator 5.050 2026-07-01 rev vUNKNOWN-built20260701
+- Verilator: Built from 0.198 MB sources in 7 modules, into 0.422 MB in 3 C++ files needing 0.000 MB
+- Verilator: Walltime 0.045 s (elab=0.012, cvt=0.018, bld=0.000); cpu 0.028 s on 1 threads; allocated 15.359 MB
+verilator --binary --timing --trace --assert -Wall --timescale 1ns/1ps --top-module tb_axi4_lite_slave --Mdir obj_dir rtl/register_bank.sv rtl/axi_write_channel.sv rtl/axi_read_channel.sv rtl/axi4_lite_slave.sv rtl/axi_write_assertions.sv tb/tb_axi4_lite_slave.sv
+c++ -Os  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.050/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.050/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=1 -DVM_TRACE=1 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=1 -DVM_TRACE_SAIF=0 -DVM_VPI=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Xclang -fno-pch-timestamp -Qunused-arguments -Wno-bool-operation -Wno-c++11-narrowing -Wno-constant-logical-operand -Wno-int-in-bool-context -Wno-non-pod-varargs -Wno-parentheses-equality -Wno-shadow -Wno-sign-compare -Wno-tautological-bitwise-compare -Wno-tautological-compare -Wno-uninitialized -Wno-unnecessary-virtual-specifier -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-vla-cxx-extension    -DVL_TIME_CONTEXT   -std=gnu++20 -c -o verilated.o /opt/homebrew/Cellar/verilator/5.050/share/verilator/include/verilated.cpp
+c++ -Os  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.050/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.050/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=1 -DVM_TRACE=1 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=1 -DVM_TRACE_SAIF=0 -DVM_VPI=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Xclang -fno-pch-timestamp -Qunused-arguments -Wno-bool-operation -Wno-c++11-narrowing -Wno-constant-logical-operand -Wno-int-in-bool-context -Wno-non-pod-varargs -Wno-parentheses-equality -Wno-shadow -Wno-sign-compare -Wno-tautological-bitwise-compare -Wno-tautological-compare -Wno-uninitialized -Wno-unnecessary-virtual-specifier -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-vla-cxx-extension    -DVL_TIME_CONTEXT   -std=gnu++20 -c -o verilated_vcd_c.o /opt/homebrew/Cellar/verilator/5.050/share/verilator/include/verilated_vcd_c.cpp
+c++ -Os  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.050/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.050/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=1 -DVM_TRACE=1 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=1 -DVM_TRACE_SAIF=0 -DVM_VPI=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Xclang -fno-pch-timestamp -Qunused-arguments -Wno-bool-operation -Wno-c++11-narrowing -Wno-constant-logical-operand -Wno-int-in-bool-context -Wno-non-pod-varargs -Wno-parentheses-equality -Wno-shadow -Wno-sign-compare -Wno-tautological-bitwise-compare -Wno-tautological-compare -Wno-uninitialized -Wno-unnecessary-virtual-specifier -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-vla-cxx-extension    -DVL_TIME_CONTEXT   -std=gnu++20 -c -o verilated_timing.o /opt/homebrew/Cellar/verilator/5.050/share/verilator/include/verilated_timing.cpp
+c++ -Os  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.050/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.050/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=1 -DVM_TRACE=1 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=1 -DVM_TRACE_SAIF=0 -DVM_VPI=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Xclang -fno-pch-timestamp -Qunused-arguments -Wno-bool-operation -Wno-c++11-narrowing -Wno-constant-logical-operand -Wno-int-in-bool-context -Wno-non-pod-varargs -Wno-parentheses-equality -Wno-shadow -Wno-sign-compare -Wno-tautological-bitwise-compare -Wno-tautological-compare -Wno-uninitialized -Wno-unnecessary-virtual-specifier -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-vla-cxx-extension    -DVL_TIME_CONTEXT   -std=gnu++20 -c -o verilated_threads.o /opt/homebrew/Cellar/verilator/5.050/share/verilator/include/verilated_threads.cpp
+python3 /opt/homebrew/Cellar/verilator/5.050/share/verilator/bin/verilator_includer -DVL_INCLUDE_OPT=include Vtb_axi4_lite_slave.cpp Vtb_axi4_lite_slave___024root__0.cpp Vtb_axi4_lite_slave__main.cpp Vtb_axi4_lite_slave__Trace__0.cpp Vtb_axi4_lite_slave___024root__Slow.cpp Vtb_axi4_lite_slave___024root__0__Slow.cpp Vtb_axi4_lite_slave__Syms__Slow.cpp Vtb_axi4_lite_slave__Trace__0__Slow.cpp Vtb_axi4_lite_slave__TraceDecls__0__Slow.cpp > Vtb_axi4_lite_slave__ALL.cpp
+c++ -Os  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.050/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.050/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=1 -DVM_TRACE=1 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=1 -DVM_TRACE_SAIF=0 -DVM_VPI=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Xclang -fno-pch-timestamp -Qunused-arguments -Wno-bool-operation -Wno-c++11-narrowing -Wno-constant-logical-operand -Wno-int-in-bool-context -Wno-non-pod-varargs -Wno-parentheses-equality -Wno-shadow -Wno-sign-compare -Wno-tautological-bitwise-compare -Wno-tautological-compare -Wno-uninitialized -Wno-unnecessary-virtual-specifier -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-vla-cxx-extension    -DVL_TIME_CONTEXT   -std=gnu++20 -c -o Vtb_axi4_lite_slave__ALL.o Vtb_axi4_lite_slave__ALL.cpp
+c++  -Wl,-U,__Z15vl_time_stamp64v,-U,__Z13sc_time_stampv,-U,_vlog_startup_routines   verilated.o verilated_vcd_c.o verilated_timing.o verilated_threads.o Vtb_axi4_lite_slave__ALL.a    -pthread -lpthread   -o Vtb_axi4_lite_slave
+rm Vtb_axi4_lite_slave__ALL.verilator_deplist.tmp
+- V e r i l a t i o n   R e p o r t: Verilator 5.050 2026-07-01 rev vUNKNOWN-built20260701
+- Verilator: Built from 0.198 MB sources in 7 modules, into 0.519 MB in 9 C++ files needing 0.003 MB
+- Verilator: Walltime 4.685 s (elab=0.002, cvt=0.017, bld=4.658); cpu 0.027 s on 1 threads; allocated 16.359 MB
+./obj_dir/Vtb_axi4_lite_slave
+PASS: Reset register value
+PASS: Full-word write/readback
+PASS: WSTRB partial-byte write
+PASS: Invalid address responses
+PASS: Independent channels - AW first
+PASS: Independent channels - W first
+PASS: Write-response backpressure
+
+Test 9: Register boundaries and unaligned addresses
+PASS: Register boundaries and unaligned addresses
+PASS: Read-response backpressure
+
+Test 10: Reset during pending transactions
+PASS: Reset during pending transactions
+
+Test 11: Consecutive transactions
+PASS: Consecutive writes, overwrite, and reads
+
+Test 12: Concurrent read and write activity
+PASS: Concurrent read and write activity
+------------------------------------
+TESTS PASSED: 12
+ALL INITIAL TESTS PASSED
+- tb/tb_axi4_lite_slave.sv:897: Verilog $finish
+- S i m u l a t i o n   R e p o r t: Verilator 5.050 2026-07-01
+- Verilator: $finish at 1us; walltime 0.001 s; speed 2.278 ms/s
+- Verilator: cpu 0.001 s on 1 threads; allocated 2 MB
