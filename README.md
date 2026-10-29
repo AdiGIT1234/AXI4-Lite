@@ -1,67 +1,275 @@
+<div align="center">
+
 # AXI4-Lite Slave IP
+### Modular memory-mapped peripheral in SystemVerilog
 
-A parameterizable AXI4-Lite slave peripheral implemented in SystemVerilog. The design includes memory-mapped registers, independent write-channel handshakes, byte-enabled writes, and read/write response handling.
+![RTL](https://img.shields.io/badge/RTL-SystemVerilog-blue)
+![Simulation](https://img.shields.io/badge/Simulation-Verilator-5C2D91)
+![Assertions](https://img.shields.io/badge/Verification-SVA-6A1B9A)
+![Synthesis](https://img.shields.io/badge/Synthesis-Yosys-orange)
 
-## Features
+**Design · Simulation · Assertions · Synthesis**
 
-- AXI4-Lite read and write channels
-- Independent AW and W channel handshakes
-- Parameterizable register bank
-- Byte strobes for partial writes
-- OKAY and SLVERR response handling
-- Address alignment and range validation
-- Reset handling
-- SystemVerilog Assertions (SVA) for response stability under backpressure
+</div>
+
+---
+
+## Overview
+
+A parameterized AXI4-Lite slave RTL design with a default 32-bit address/data configuration, a 16-word memory-mapped register bank, byte-enabled writes, separate read/write channel logic, and SystemVerilog Assertions (SVA) for response stability under backpressure.
+
+| Property | Configuration |
+|---|---|
+| Address/data width | 32 / 32 bits |
+| Register bank | 16 × 32-bit registers |
+| Valid word addresses | `0x00` through `0x3C`, in 4-byte increments |
+| Byte enables | 4-bit `WSTRB` |
+| Responses | `OKAY` (`2'b00`), `SLVERR` (`2'b10`) |
+| Tools | Verilator, Yosys |
+
+> **Scope:** AXI4-Lite single-beat transactions. The design allows at most one outstanding write transaction and one outstanding read transaction independently, so read and write activity can overlap. It does not implement AXI4 bursts or transaction IDs. The current SVA checker has a fixed 32-bit `rdata` input, so the checker must be updated before verifying a different data width.
 
 ## Architecture
 
-| File | Description |
-|---|---|
-| `rtl/axi4_lite_slave.sv` | Top-level integration |
-| `rtl/axi_write_channel.sv` | Write-channel logic |
-| `rtl/axi_read_channel.sv` | Read-channel logic |
-| `rtl/register_bank.sv` | Memory-mapped register bank |
-| `rtl/axi_write_assertions.sv` | SVA checker |
-| `tb/tb_axi4_lite_slave.sv` | Verification testbench |
+```mermaid
+flowchart TB
+    TB["tb_axi4_lite_slave.sv<br/>Testbench"]
+    DUT["axi4_lite_slave.sv<br/>Top-level DUT"]
+    WR["u_write_channel<br/>axi_write_channel.sv<br/>AW / W / B"]
+    RD["u_read_channel<br/>axi_read_channel.sv<br/>AR / R"]
+    RB["u_register_bank<br/>register_bank.sv<br/>16 × 32-bit registers"]
+    SVA["axi_write_assertions.sv<br/>3 response-stability assertions"]
 
-## Verification
+    TB --> DUT
+    TB --> SVA
+    DUT --> WR
+    DUT --> RD
+    DUT --> RB
+    WR <--> RB
+    RD <--> RB
 
-The testbench contains 12 directed tests covering reset, full-word and partial writes, invalid addresses, independent AW/W handshakes, response backpressure, register boundaries, reset during pending transactions, consecutive transactions, and concurrent read/write activity.
-
-**Regression result:** 12/12 directed tests passed using Verilator with assertions enabled. This is simulation-based verification, not a formal proof of all possible input sequences.
-
-## Tools
-
-- SystemVerilog
-- Verilator
-- Yosys
-
-## Running the Tests
-
-Run lint:
-
-```bash
-make lint
+    style DUT fill:#1f4e79,color:#ffffff,stroke:#163a5a
+    style RB fill:#38761d,color:#ffffff,stroke:#274e13
+    style SVA fill:#674ea7,color:#ffffff,stroke:#351c75
 ```
 
-Build and run the testbench:
+The DUT's child instances are `u_write_channel`, `u_read_channel`, and `u_register_bank`. The SVA checker is instantiated in the testbench alongside the DUT; it is **not** instantiated inside `axi4_lite_slave`.
 
-```bash
-make test
+## Repository map
+
+```text
+AXI4-Lite/
+├── rtl/
+│   ├── axi4_lite_slave.sv       # Top-level integration
+│   ├── axi_write_channel.sv     # Write address/data/response handling
+│   ├── axi_read_channel.sv      # Read address/data response handling
+│   ├── register_bank.sv         # Storage, address checks, byte writes
+│   ├── axi_write_assertions.sv  # SVA checker
+│   └── axi_pkg.sv               # Package file (not used by current build)
+├── tb/
+│   └── tb_axi4_lite_slave.sv    # Directed self-checking testbench
+├── reports/
+│   ├── axi4_lite_slave_synth.v  # Synthesized Verilog netlist
+│   └── yosys_synthesis.log      # Synthesis log
+├── waveforms/                   # Generated waveforms
+├── Makefile
+├── .gitignore
+└── README.md
 ```
 
-Run the compiled testbench after building:
+## AXI4-Lite handshake fundamentals
+
+Each channel transfers information on a rising clock edge when `VALID && READY` is true. If `VALID=1` and `READY=0`, the transfer has not completed; the sender must keep the offered information stable until acceptance.
+
+| Channel | Main signals | Purpose |
+|---|---|---|
+| AW | `s_axi_awaddr`, `s_axi_awvalid`, `s_axi_awready` | Write address |
+| W | `s_axi_wdata`, `s_axi_wstrb`, `s_axi_wvalid`, `s_axi_wready` | Write data and byte enables |
+| B | `s_axi_bresp`, `s_axi_bvalid`, `s_axi_bready` | Write status response |
+| AR | `s_axi_araddr`, `s_axi_arvalid`, `s_axi_arready` | Read address |
+| R | `s_axi_rdata`, `s_axi_rresp`, `s_axi_rvalid`, `s_axi_rready` | Read data and status |
+
+AW and W are independent: the address and data may handshake in the same cycle or different cycles.
+
+## Write path
+
+```mermaid
+sequenceDiagram
+    participant M as AXI Master
+    participant W as axi_write_channel
+    participant R as register_bank
+    M->>W: AWVALID + AWADDR (AW handshake)
+    M->>W: WVALID + WDATA + WSTRB (W handshake)
+    W->>W: Buffer each channel if it arrives first
+    W->>R: reg_wr_en, reg_wr_addr, reg_wr_data, reg_wr_strb
+    R->>R: Validate address and update enabled bytes
+    W-->>M: BVALID + BRESP
+    M->>W: BREADY (response handshake)
+```
+
+The core write control is:
+
+```systemverilog
+assign s_axi_awready = !aw_pending && !response_pending;
+assign s_axi_wready  = !w_pending  && !response_pending;
+
+assign aw_handshake = s_axi_awvalid && s_axi_awready;
+assign w_handshake  = s_axi_wvalid  && s_axi_wready;
+
+assign write_commit =
+    !response_pending &&
+    (aw_pending || aw_handshake) &&
+    (w_pending  || w_handshake);
+```
+
+- `aw_pending` records that an address was captured.
+- `w_pending` records that write data and strobes were captured.
+- `write_commit` is true when both address and data are available, including when one arrives in the current cycle.
+- `response_pending` prevents another write from being accepted while a write response is outstanding.
+- The response is `OKAY` for a valid address and `SLVERR` for an invalid address.
+
+### Byte-enabled writes
+
+For 32-bit data, `WSTRB[0]` enables bits `[7:0]`, `WSTRB[1]` enables `[15:8]`, `WSTRB[2]` enables `[23:16]`, and `WSTRB[3]` enables `[31:24]`.
+
+```systemverilog
+if (wr_strb[byte_lane]) begin
+    regs[wr_index][byte_lane*8 +: 8]
+        <= wr_data[byte_lane*8 +: 8];
+end
+```
+
+Only selected bytes change; the other bytes retain their previous values.
+
+## Read path
+
+```mermaid
+sequenceDiagram
+    participant M as AXI Master
+    participant R as axi_read_channel
+    participant B as register_bank
+    M->>R: ARVALID + ARADDR
+    R->>B: reg_rd_en + reg_rd_addr
+    B-->>R: reg_rd_data + reg_rd_valid_addr
+    R-->>M: RVALID + RDATA + RRESP
+    M->>R: RREADY (response handshake)
+```
+
+`axi_read_channel` accepts a read address when no response is pending:
+
+```systemverilog
+assign s_axi_arready = !s_axi_rvalid;
+assign ar_handshake  = s_axi_arvalid && s_axi_arready;
+
+assign reg_rd_en   = ar_handshake;
+assign reg_rd_addr = s_axi_araddr;
+```
+
+On acceptance, the channel captures read data and response status and asserts `s_axi_rvalid`. The response is held until `s_axi_rvalid && s_axi_rready`. Read and write channel logic are separate, so read and write activity can overlap.
+
+## Register bank and address map
+
+The storage array is:
+
+```systemverilog
+logic [DATA_WIDTH-1:0] regs [0:NUM_REGS-1];
+```
+
+For 32-bit words, each register occupies four bytes. Valid aligned addresses are `0x00`, `0x04`, …, `0x3C`; unaligned addresses and addresses outside the implemented window are invalid.
+
+- Valid access: `OKAY` (`2'b00`).
+- Invalid access: `SLVERR` (`2'b10`).
+- Invalid read: zero data and `SLVERR`.
+- `rst_n` is active-low and asynchronously resets the register bank and channel state.
+
+## SystemVerilog Assertions (SVA)
+
+`axi_write_assertions.sv` contains three properties. The testbench connects `check_enable` to `rst_n`.
+
+### 1. `BRESP` remains stable during write backpressure
+
+```systemverilog
+property p_bresp_stable_under_backpressure;
+    @(posedge clk)
+    (check_enable && bvalid && !bready)
+    |=> (!check_enable || (bvalid && $stable(bresp)));
+endproperty
+```
+
+If `BVALID` is high and `BREADY` is low, the next sampled cycle must still have `BVALID` high and `BRESP` unchanged, unless checking has been disabled.
+
+### 2. `BVALID` stays high during write backpressure
+
+```systemverilog
+property p_bvalid_stays_high_under_backpressure;
+    @(posedge clk)
+    (check_enable && bvalid && !bready)
+    |=> (!check_enable || bvalid);
+endproperty
+```
+
+The slave must not withdraw a pending write response before the master accepts it.
+
+### 3. `RDATA` and `RRESP` remain stable during read backpressure
+
+```systemverilog
+property p_rresp_stable_under_backpressure;
+    @(posedge clk)
+    (check_enable && rvalid && !rready)
+    |=> (!check_enable ||
+         (rvalid && $stable(rdata) && $stable(rresp)));
+endproperty
+```
+
+While a read response is stalled, `RVALID`, `RDATA`, and `RRESP` must remain stable across the next sampled clock.
+
+**Operators:** `@(posedge clk)` samples on the rising edge; `|=>` is non-overlapped implication (the consequent starts at the next sample); `$stable(x)` checks that `x` did not change between relevant samples.
+
+> These assertions cover response stability under backpressure. They do not check every AXI4-Lite rule and are not a complete formal proof. They are currently run in Verilator simulation.
+
+## Testbench and regression
+
+`tb/tb_axi4_lite_slave.sv` instantiates the DUT and the SVA checker and runs 12 directed scenarios:
+
+1. Reset register value
+2. Full-word write/readback
+3. `WSTRB` partial-byte write
+4. Invalid address responses
+5. Independent channels — AW first
+6. Independent channels — W first
+7. Write-response backpressure
+8. Read-response backpressure
+9. Register boundaries and unaligned addresses
+10. Reset during pending transactions
+11. Consecutive writes, overwrite, and reads
+12. Concurrent read and write activity
+
+**Last recorded regression:** 12/12 directed tests passed with Verilator and assertions enabled. Re-run the commands below to reproduce the result.
+
+## Run locally
+
+Requirements: Verilator with timing/assertion support, a compatible C++ compiler, and GNU Make. Yosys is needed only if regenerating the synthesis artifacts.
+
+```bash
+make lint    # lint RTL and testbench
+make test    # lint, build, and run simulation
+make clean   # remove obj_dir and generated VCD waveforms
+```
+
+To run an already-built executable:
 
 ```bash
 ./obj_dir/Vtb_axi4_lite_slave
 ```
 
-Clean generated build files and VCD waveforms:
+Run `make build` or `make test` first if `obj_dir/` has been removed.
 
-```bash
-make clean
-```
+## Synthesis artifacts
 
-## Synthesis Reports
+- `reports/yosys_synthesis.log` — recorded Yosys output.
+- `reports/axi4_lite_slave_synth.v` — synthesized Verilog netlist.
 
-The `reports/` directory contains the Yosys synthesis log and synthesized Verilog netlist.
+
+
+
+<div align="center">Built with SystemVerilog · Simulated with Verilator · Synthesized with Yosys</div>
