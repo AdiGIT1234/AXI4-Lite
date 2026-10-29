@@ -107,6 +107,26 @@ sequenceDiagram
     M->>W: BREADY (response handshake)
 ```
 
+### Write-control flowchart
+
+```mermaid
+flowchart TD
+    A([Idle / awaiting write]) --> B{AW handshake?}
+    A --> C{W handshake?}
+    B -->|Yes| D[Capture AWADDR]
+    C -->|Yes| E[Capture WDATA and WSTRB]
+    D --> F{Address and data both available?}
+    E --> F
+    F -->|No| G[Wait for missing channel]
+    G --> F
+    F -->|Yes| H[Validate address and commit enabled bytes]
+    H --> I[Assert BVALID and set BRESP]
+    I --> J{BREADY?}
+    J -->|No| I
+    J -->|Yes| K[Clear response state]
+    K --> A
+```
+
 The core write control is:
 
 ```systemverilog
@@ -141,6 +161,20 @@ end
 
 Only selected bytes change; the other bytes retain their previous values.
 
+```mermaid
+flowchart LR
+    STRB["WSTRB[3:0]"] --> B3["WSTRB[3] = 1<br/>DATA[31:24]"]
+    STRB --> B2["WSTRB[2] = 1<br/>DATA[23:16]"]
+    STRB --> B1["WSTRB[1] = 1<br/>DATA[15:8]"]
+    STRB --> B0["WSTRB[0] = 1<br/>DATA[7:0]"]
+    B3 --> R3["Register byte 3"]
+    B2 --> R2["Register byte 2"]
+    B1 --> R1["Register byte 1"]
+    B0 --> R0["Register byte 0"]
+```
+
+A `WSTRB` bit of `0` leaves its corresponding byte unchanged; a bit of `1` updates that byte from `WDATA`.
+
 ## Read path
 
 ```mermaid
@@ -153,6 +187,24 @@ sequenceDiagram
     B-->>R: reg_rd_data + reg_rd_valid_addr
     R-->>M: RVALID + RDATA + RRESP
     M->>R: RREADY (response handshake)
+```
+
+### Read-control flowchart
+
+```mermaid
+flowchart TD
+    A([Idle / no read response pending]) --> B{ARVALID and ARREADY?}
+    B -->|No| A
+    B -->|Yes| C[Capture read address and access register bank]
+    C --> D{Address valid and aligned?}
+    D -->|Yes| E[Capture register data and OKAY response]
+    D -->|No| F[Capture zero data and SLVERR response]
+    E --> G[Assert RVALID with RDATA and RRESP]
+    F --> G
+    G --> H{RREADY?}
+    H -->|No| G
+    H -->|Yes| I[Clear RVALID]
+    I --> A
 ```
 
 `axi_read_channel` accepts a read address when no response is pending:
@@ -176,6 +228,38 @@ logic [DATA_WIDTH-1:0] regs [0:NUM_REGS-1];
 ```
 
 For 32-bit words, each register occupies four bytes. Valid aligned addresses are `0x00`, `0x04`, …, `0x3C`; unaligned addresses and addresses outside the implemented window are invalid.
+
+### Register address map
+
+| Register index | Byte address | Register width |
+|---:|---:|---:|
+| 0 | `0x00` | 32 bits |
+| 1 | `0x04` | 32 bits |
+| 2 | `0x08` | 32 bits |
+| 3 | `0x0C` | 32 bits |
+| 4 | `0x10` | 32 bits |
+| 5 | `0x14` | 32 bits |
+| 6 | `0x18` | 32 bits |
+| 7 | `0x1C` | 32 bits |
+| 8 | `0x20` | 32 bits |
+| 9 | `0x24` | 32 bits |
+| 10 | `0x28` | 32 bits |
+| 11 | `0x2C` | 32 bits |
+| 12 | `0x30` | 32 bits |
+| 13 | `0x34` | 32 bits |
+| 14 | `0x38` | 32 bits |
+| 15 | `0x3C` | 32 bits |
+
+```mermaid
+flowchart LR
+    ADDR["AXI byte address"] --> ALIGN{"Word-aligned?<br/>ADDR[1:0] == 0"}
+    ALIGN -->|No| ERR["Invalid access<br/>SLVERR"]
+    ALIGN -->|Yes| RANGE{"Address in 0x00–0x3C?"}
+    RANGE -->|No| ERR
+    RANGE -->|Yes| IDX["Register index = ADDR[5:2]"]
+    IDX --> BANK["16 × 32-bit register bank"]
+```
+
 
 - Valid access: `OKAY` (`2'b00`).
 - Invalid access: `SLVERR` (`2'b10`).
@@ -225,6 +309,23 @@ While a read response is stalled, `RVALID`, `RDATA`, and `RRESP` must remain sta
 
 **Operators:** `@(posedge clk)` samples on the rising edge; `|=>` is non-overlapped implication (the consequent starts at the next sample); `$stable(x)` checks that `x` did not change between relevant samples.
 
+### Backpressure timing concept
+
+The following timing sketch illustrates the required behavior while the master is not ready. The response and payload must remain stable until the handshake occurs.
+
+```mermaid
+sequenceDiagram
+    participant S as AXI4-Lite Slave
+    participant M as AXI Master
+    S-->>M: RVALID=1, RDATA=D, RRESP=OKAY
+    Note over S,M: RREADY=0 — response is stalled
+    S-->>M: Keep RVALID=1 and keep RDATA/RRESP unchanged
+    Note over S,M: RREADY becomes 1
+    S-->>M: Hold the same response through the accepting edge
+    M->>S: RREADY=1 — RVALID && RREADY handshake
+    Note over S,M: Slave may retire the response after acceptance
+```
+
 > These assertions cover response stability under backpressure. They do not check every AXI4-Lite rule and are not a complete formal proof. They are currently run in Verilator simulation.
 
 ## Testbench and regression
@@ -269,7 +370,43 @@ Run `make build` or `make test` first if `obj_dir/` has been removed.
 - `reports/yosys_synthesis.log` — recorded Yosys output.
 - `reports/axi4_lite_slave_synth.v` — synthesized Verilog netlist.
 
+These are synthesis artifacts only. Place-and-route, timing sign-off, and GDSII generation are not claimed.
+
+## Verification and synthesis results
+
+### 1. Functional regression
+
+The last recorded Verilator regression passed all 12 directed tests with assertions enabled. Re-run `make test` to reproduce the result.
+
+![Regression results — 12 tests passed](docs/images/01_tests_passed.png)
+
+### 2. Full simulation waveforms
+
+Read and write activity captured in GTKWave.
+
+![Full simulation waveforms](docs/images/02_full_waveforms.png)
+
+### 3. Read-response backpressure
+
+The captured read-response interval demonstrates `RVALID` asserted while `RREADY` is low, with `RDATA` and `RRESP` held stable.
+
+![Read response backpressure](docs/images/03_read_backpressure.png)
+
+### 4. Yosys synthesis statistics
+
+The saved Yosys log reports **1,935 generic synthesized cells** across the design hierarchy. This is a generic synthesis statistic, not a standard-cell area or physical-design result.
+
+![Yosys synthesis statistics](docs/images/04_synthesis_stats.png)
+
+### 5. Yosys structural checks
+
+The saved Yosys log reports zero structural problems during its checks.
+
+![Yosys structural checks](docs/images/05_yosys_checks.png)
+
+> **Implementation status:** RTL simulation, assertion checking in simulation, and generic Yosys synthesis have been run. This repository does not claim completed place-and-route, timing sign-off, or GDSII generation.
 
 
+---
 
 <div align="center">Built with SystemVerilog · Simulated with Verilator · Synthesized with Yosys</div>
